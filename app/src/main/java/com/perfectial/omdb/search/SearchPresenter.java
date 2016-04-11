@@ -6,4 +6,6 @@ package com.perfectial.omdb.search;
 public interface SearchPresenter {
 
     void setSearchView(SearchView searchView);
+
+    void onViewCreated();
 }

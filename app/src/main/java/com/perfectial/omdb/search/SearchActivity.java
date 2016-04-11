@@ -2,9 +2,12 @@ package com.perfectial.omdb.search;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.perfectial.omdb.OMDBApp;
@@ -20,8 +23,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
     @Inject
     SearchPresenter searchPresenter;
 
-    @Bind(R.id.text)
-    TextView textView;
+    @Bind(R.id.tv_empty_text_view)
+    TextView emptyTextView;
+
+    @Bind(R.id.rv_list)
+    RecyclerView list;
+
+    @Bind(R.id.pb_preloader)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +38,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
 
-        OMDBApp.getAppComponent().inject(this);
-        searchPresenter.setSearchView(this);
-
-        if (searchPresenter != null) {
-            textView.setText("Hurraaaa");
-        } else {
-            textView.setText("Bliiin");
-        }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        OMDBApp.getAppComponent().inject(this);
+        searchPresenter.setSearchView(this);
+        searchPresenter.onViewCreated();
     }
 
     @Override
@@ -68,5 +72,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
     protected void onDestroy() {
         searchPresenter.setSearchView(null);
         super.onDestroy();
+    }
+
+    @Override
+    public void showPreloader() {
+        emptyTextView.setVisibility(View.INVISIBLE);
+        list.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 }

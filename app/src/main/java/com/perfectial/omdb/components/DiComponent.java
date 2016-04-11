@@ -1,7 +1,7 @@
 package com.perfectial.omdb.components;
 
+import com.perfectial.omdb.modules.SearchModule;
 import com.perfectial.omdb.search.SearchActivity;
-import com.perfectial.omdb.search.SearchModule;
 
 import javax.inject.Singleton;
 

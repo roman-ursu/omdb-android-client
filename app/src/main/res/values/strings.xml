@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">OMDB-Client</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_open_filters">Filters</string>
+    <string name="no_data">No data</string>
 </resources>

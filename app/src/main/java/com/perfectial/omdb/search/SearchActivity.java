@@ -7,11 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.perfectial.omdb.OMDBApp;
 import com.perfectial.omdb.R;
+import com.perfectial.omdb.net.bean.OpenDBMovieEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -79,5 +84,66 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         emptyTextView.setVisibility(View.INVISIBLE);
         list.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showMovies(List<OpenDBMovieEntity> movies) {
+        if (movies.size() <= 0) {
+            emptyTextView.setVisibility(View.VISIBLE);
+            list.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+
+        } else {
+            emptyTextView.setVisibility(View.INVISIBLE);
+            list.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+
+            populateListWithData(movies);
+        }
+    }
+
+    private void populateListWithData(List<OpenDBMovieEntity> movies) {
+        if (list.getAdapter() == null) {
+            // TODO: 11.04.16
+
+        } else {
+            MoviesAdapter moviesAdapter = (MoviesAdapter) list.getAdapter();
+            moviesAdapter.setData(movies);
+            moviesAdapter.notifyDataSetChanged();
+        }
+    }
+}
+
+
+class MoviesAdapter extends RecyclerView.Adapter<MovieHolder> {
+
+    private List<OpenDBMovieEntity> data = new ArrayList<>();
+
+    public void setData(List<OpenDBMovieEntity> data) {
+        data.clear();
+        data.addAll(data);
+    }
+
+    @Override
+    public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(MovieHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+}
+
+class MovieHolder extends RecyclerView.ViewHolder {
+
+    public MovieHolder(View itemView) {
+        super(itemView);
     }
 }

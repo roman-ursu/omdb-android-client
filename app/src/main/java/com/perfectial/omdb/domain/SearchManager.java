@@ -2,8 +2,11 @@ package com.perfectial.omdb.domain;
 
 import android.util.Log;
 
+import com.perfectial.omdb.domain.bean.OpenDBMovie;
 import com.perfectial.omdb.net.NetAPI;
 import com.perfectial.omdb.net.bean.OpenDBMovieEntity;
+import com.perfectial.omdb.net.response.SearchResponse;
+import com.perfectial.omdb.util.Converter;
 import com.perfectial.omdb.util.RxHelper;
 
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import rx.Observer;
+import rx.functions.Func1;
 
 /**
  * Created by rursu on 11.04.16.
@@ -22,7 +26,7 @@ public class SearchManager {
     private NetAPI netAPI;
 
     public interface MoviesListener {
-        void onLoaded(List<OpenDBMovieEntity> movies);
+        void onLoaded(List<OpenDBMovie> movies);
         void onError(String errorMessage);
     }
 
@@ -35,12 +39,18 @@ public class SearchManager {
         options.put("type", "movie");
         options.put("s", "happy");
         netAPI.searchForMovie(options)
-                .compose(RxHelper.<List<OpenDBMovieEntity>>getSchedulers())
+                .map(new Func1<SearchResponse, List<OpenDBMovie>>() {
+                    @Override
+                    public List<OpenDBMovie> call(SearchResponse searchResponse) {
+                        return Converter.convert(searchResponse.getCollection());
+                    }
+                })
+                .compose(RxHelper.<List<OpenDBMovie>>getSchedulers())
                 .subscribe(listLoadCallBack(moviesListener));
     }
 
-    private Observer<List<OpenDBMovieEntity>> listLoadCallBack(final MoviesListener moviesListener) {
-        return new Observer<List<OpenDBMovieEntity>>() {
+    private Observer<List<OpenDBMovie>> listLoadCallBack(final MoviesListener moviesListener) {
+        return new Observer<List<OpenDBMovie>>() {
             @Override
             public void onCompleted() {
 
@@ -55,9 +65,9 @@ public class SearchManager {
             }
 
             @Override
-            public void onNext(List<OpenDBMovieEntity> openDBMovieEntities) {
+            public void onNext(List<OpenDBMovie> openDBMovies) {
                 if (moviesListener != null) {
-                    moviesListener.onLoaded(openDBMovieEntities);
+                    moviesListener.onLoaded(openDBMovies);
                 }
             }
         };

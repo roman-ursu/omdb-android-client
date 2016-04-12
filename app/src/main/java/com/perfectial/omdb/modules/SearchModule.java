@@ -2,9 +2,8 @@ package com.perfectial.omdb.modules;
 
 import com.perfectial.omdb.domain.SearchManager;
 import com.perfectial.omdb.net.NetAPI;
-import com.perfectial.omdb.modules.NetAPIModule;
-import com.perfectial.omdb.search.SearchPresenter;
-import com.perfectial.omdb.search.SearchPresenterImpl;
+import com.perfectial.omdb.ui.search.SearchPresenter;
+import com.perfectial.omdb.ui.search.SearchPresenterImpl;
 
 import javax.inject.Singleton;
 

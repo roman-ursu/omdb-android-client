@@ -2,7 +2,6 @@ package com.perfectial.omdb.modules;
 
 import android.content.Context;
 
-import com.perfectial.omdb.modules.AppModule;
 import com.perfectial.omdb.net.NetAPI;
 import com.perfectial.omdb.net.NetAPIImpl;
 import com.perfectial.omdb.net.OpenDBAPI;
@@ -15,7 +14,9 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -34,6 +35,7 @@ public class NetAPIModule {
         return new Retrofit.Builder()
                 .baseUrl(OPEN_DB_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
     }
@@ -42,12 +44,15 @@ public class NetAPIModule {
     public OkHttpClient provideOkHttpClient(Context context) {
         File cacheDir = new File(context.getCacheDir(), "http");
         Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
                 .connectTimeout(30, SECONDS)
                 .readTimeout(30, SECONDS)
                 .writeTimeout(30, SECONDS)
                 .cache(cache)
+                .addInterceptor(interceptor)
                 .build();
     }
 

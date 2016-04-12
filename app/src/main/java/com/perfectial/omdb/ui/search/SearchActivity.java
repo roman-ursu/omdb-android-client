@@ -1,19 +1,24 @@
-package com.perfectial.omdb.search;
+package com.perfectial.omdb.ui.search;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.perfectial.omdb.OMDBApp;
 import com.perfectial.omdb.R;
-import com.perfectial.omdb.net.bean.OpenDBMovieEntity;
+import com.perfectial.omdb.domain.bean.OpenDBMovie;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +52,21 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         setSupportActionBar(toolbar);
 
         OMDBApp.getAppComponent().inject(this);
+
+        initList();
+
         searchPresenter.setSearchView(this);
         searchPresenter.onViewCreated();
+    }
+
+    private void initList() {
+        MoviesAdapter moviesAdapter = new MoviesAdapter();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        list.setAdapter(moviesAdapter);
+        list.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -87,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
     }
 
     @Override
-    public void showMovies(List<OpenDBMovieEntity> movies) {
+    public void showMovies(List<OpenDBMovie> movies) {
         if (movies.size() <= 0) {
             emptyTextView.setVisibility(View.VISIBLE);
             list.setVisibility(View.INVISIBLE);
@@ -102,37 +120,51 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         }
     }
 
-    private void populateListWithData(List<OpenDBMovieEntity> movies) {
-        if (list.getAdapter() == null) {
-            // TODO: 11.04.16
+    @Override
+    public void showError(String errorMessage) {
+        emptyTextView.setVisibility(View.VISIBLE);
+        list.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
-        } else {
-            MoviesAdapter moviesAdapter = (MoviesAdapter) list.getAdapter();
-            moviesAdapter.setData(movies);
-            moviesAdapter.notifyDataSetChanged();
-        }
+        Toast.makeText(this, "Error occured", Toast.LENGTH_SHORT).show();
+    }
+
+    private void populateListWithData(List<OpenDBMovie> movies) {
+        MoviesAdapter moviesAdapter = (MoviesAdapter) list.getAdapter();
+        moviesAdapter.setData(movies);
+        moviesAdapter.notifyDataSetChanged();
     }
 }
 
 
 class MoviesAdapter extends RecyclerView.Adapter<MovieHolder> {
 
-    private List<OpenDBMovieEntity> data = new ArrayList<>();
+    private List<OpenDBMovie> data = new ArrayList<>();
 
-    public void setData(List<OpenDBMovieEntity> data) {
-        data.clear();
-        data.addAll(data);
+    public void setData(List<OpenDBMovie> data) {
+        this.data.clear();
+        this.data.addAll(data);
     }
 
     @Override
     public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.movie_item, parent, false);
 
-        return null;
+        return new MovieHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
+        OpenDBMovie movie = data.get(position);
 
+        Picasso.with(holder.poster.getContext())
+                .load(movie.getPoster())
+                .into(holder.poster);
+
+        holder.title.setText(movie.getTitle());
+        holder.type.setText(movie.getType());
+        holder.year.setText(movie.getYear());
     }
 
     @Override
@@ -143,7 +175,20 @@ class MoviesAdapter extends RecyclerView.Adapter<MovieHolder> {
 
 class MovieHolder extends RecyclerView.ViewHolder {
 
+    @Bind(R.id.iv_poster)
+    ImageView poster;
+
+    @Bind(R.id.tv_title)
+    TextView title;
+
+    @Bind(R.id.tv_type)
+    TextView type;
+
+    @Bind(R.id.tv_year)
+    TextView year;
+
     public MovieHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 }

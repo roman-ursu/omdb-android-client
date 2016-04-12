@@ -1,4 +1,4 @@
-package com.perfectial.omdb.search;
+package com.perfectial.omdb.ui.search;
 
 /**
  * Created by rursu on 08.04.16.

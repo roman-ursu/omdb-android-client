@@ -1,7 +1,7 @@
-package com.perfectial.omdb.search;
+package com.perfectial.omdb.ui.search;
 
 import com.perfectial.omdb.domain.SearchManager;
-import com.perfectial.omdb.net.bean.OpenDBMovieEntity;
+import com.perfectial.omdb.domain.bean.OpenDBMovie;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private SearchManager.MoviesListener searchCallback() {
         return new SearchManager.MoviesListener() {
             @Override
-            public void onLoaded(List<OpenDBMovieEntity> movies) {
+            public void onLoaded(List<OpenDBMovie> movies) {
                 if (searchView != null) {
                     searchView.showMovies(movies);
                 }
@@ -42,7 +42,7 @@ public class SearchPresenterImpl implements SearchPresenter {
 
             @Override
             public void onError(String errorMessage) {
-
+                searchView.showError(errorMessage);
             }
         };
     }

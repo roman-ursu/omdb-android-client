@@ -28,19 +28,25 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
 
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'io.reactivex:rxandroid:1.0.1' // reactive java
 
-    compile 'com.google.dagger:dagger:2.0.2'
-    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0' // networking
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0' // networking
 
-    compile 'javax.inject:javax.inject:1'
-    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1' // networking
+    compile 'com.squareup.retrofit2:retrofit:2.0.1' // networking
+    compile 'com.squareup.retrofit2:converter-gson:2.0.1' // json converter
 
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2' // image loading
+
+    compile 'com.jakewharton:butterknife:7.0.1' // di for views
+
+    compile 'com.google.dagger:dagger:2.0.2' // di
+    apt 'com.google.dagger:dagger-compiler:2.0.2' // di
+
+    compile 'javax.inject:javax.inject:1' // di annotations
+    provided 'javax.annotation:jsr250-api:1.0' // di annotations
+
+
 }

@@ -49,4 +49,7 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0' // di annotations
 
 
+    compile 'com.j256.ormlite:ormlite-core:4.48' // orm
+    compile 'com.j256.ormlite:ormlite-android:4.48' // orm
+
 }

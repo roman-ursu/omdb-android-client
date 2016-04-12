@@ -136,7 +136,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
     }
 }
 
-
 class MoviesAdapter extends RecyclerView.Adapter<MovieHolder> {
 
     private List<OpenDBMovie> data = new ArrayList<>();

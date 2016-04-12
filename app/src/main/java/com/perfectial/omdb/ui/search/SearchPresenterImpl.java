@@ -1,5 +1,8 @@
 package com.perfectial.omdb.ui.search;
 
+import android.widget.Toast;
+
+import com.perfectial.omdb.OMDBApp;
 import com.perfectial.omdb.domain.SearchManager;
 import com.perfectial.omdb.domain.bean.OpenDBMovie;
 
@@ -31,10 +34,17 @@ public class SearchPresenterImpl implements SearchPresenter {
         searchManager.search(searchCallback());
     }
 
-    private SearchManager.MoviesListener searchCallback() {
-        return new SearchManager.MoviesListener() {
+    private SearchManager.MoviesLoaderListener searchCallback() {
+        return new SearchManager.MoviesLoaderListener() {
             @Override
             public void onLoaded(List<OpenDBMovie> movies) {
+                if (searchView != null) {
+                    searchView.showMovies(movies);
+                }
+            }
+
+            @Override
+            public void onNewLoaded(List<OpenDBMovie> movies) {
                 if (searchView != null) {
                     searchView.showMovies(movies);
                 }

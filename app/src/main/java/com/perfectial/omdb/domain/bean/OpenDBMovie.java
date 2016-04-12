@@ -1,14 +1,27 @@
 package com.perfectial.omdb.domain.bean;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by rursu on 11.04.16.
  */
+@DatabaseTable(tableName = "movie")
 public class OpenDBMovie {
 
-    private String title;
-    private String year;
+    @DatabaseField(id = true)
     private String imdbID;
+
+    @DatabaseField
+    private String title;
+
+    @DatabaseField
+    private String year;
+
+    @DatabaseField
     private String type;
+
+    @DatabaseField
     private String poster;
 
     public String getTitle() {

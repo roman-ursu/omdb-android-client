@@ -8,4 +8,6 @@ public interface SearchPresenter {
     void setSearchView(SearchView searchView);
 
     void onViewCreated();
+
+    void onFilterClicked();
 }

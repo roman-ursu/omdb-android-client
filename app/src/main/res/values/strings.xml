@@ -4,4 +4,16 @@
     <string name="action_search">Search</string>
     <string name="action_open_filters">Filters</string>
     <string name="no_data">No data</string>
+
+    <string name="year">Year</string>
+    <string name="type">Type</string>
+    <string name="search_filter">Search Filter</string>
+    <string name="title">Title</string>
+
+    <string-array name="movie_type">
+        <item>movie</item>
+        <item>series</item>
+        <item>episode</item>
+    </string-array>
+
 </resources>

@@ -11,5 +11,5 @@ public interface SearchView {
     void showPreloader();
     void showMovies(List<OpenDBMovie> movies);
     void showError(String errorMessage);
-
+    void showFilterDialog();
 }

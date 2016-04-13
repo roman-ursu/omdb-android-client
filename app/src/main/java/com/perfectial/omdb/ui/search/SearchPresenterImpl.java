@@ -34,6 +34,11 @@ public class SearchPresenterImpl implements SearchPresenter {
         searchManager.search(searchCallback());
     }
 
+    @Override
+    public void onFilterClicked() {
+        searchView.showFilterDialog();
+    }
+
     private SearchManager.MoviesLoaderListener searchCallback() {
         return new SearchManager.MoviesLoaderListener() {
             @Override

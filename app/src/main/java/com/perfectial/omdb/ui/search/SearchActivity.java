@@ -83,6 +83,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        switch (id) {
+            case R.id.action_filter : {
+                if (searchPresenter != null) {
+                    searchPresenter.onFilterClicked();
+                }
+            } break;
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -127,6 +135,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
         progressBar.setVisibility(View.INVISIBLE);
 
         Toast.makeText(this, "Error occured", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showFilterDialog() {
+        SearchFilterFragmentDialog searchFilterDialog = new SearchFilterFragmentDialog();
+        searchFilterDialog.show(getFragmentManager(), "");
     }
 
     private void populateListWithData(List<OpenDBMovie> movies) {

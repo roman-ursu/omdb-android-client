@@ -11,4 +11,5 @@ import rx.Observable;
  */
 public interface NetAPI {
     Observable<SearchResponse> searchForMovie(Map<String, String> options);
+    SearchResponse searchForMovieSync(Map<String, String> options);
 }

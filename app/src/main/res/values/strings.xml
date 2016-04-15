@@ -9,6 +9,7 @@
     <string name="type">Type</string>
     <string name="search_filter">Search Filter</string>
     <string name="title">Title</string>
+    <string name="apply">Apply</string>
 
     <string-array name="movie_type">
         <item>movie</item>

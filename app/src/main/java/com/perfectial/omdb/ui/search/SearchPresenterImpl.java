@@ -1,12 +1,11 @@
 package com.perfectial.omdb.ui.search;
 
-import android.widget.Toast;
-
-import com.perfectial.omdb.OMDBApp;
 import com.perfectial.omdb.domain.SearchManager;
 import com.perfectial.omdb.domain.bean.OpenDBMovie;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rursu on 08.04.16.
@@ -27,16 +26,24 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void onViewCreated() {
-        if (searchView != null) {
-            searchView.showPreloader();
-        }
-
-        searchManager.search(searchCallback());
+        Map<String, String> options = new HashMap<>();
+        options.put(OpenDBMovie.TYPE_FIELD, "movie");
+        options.put(OpenDBMovie.TITLE_FIELD, "Happy");
+        loadMovies(options);
     }
 
     @Override
     public void onFilterClicked() {
         searchView.showFilterDialog();
+    }
+
+    @Override
+    public void loadMovies(Map<String, String> options) {
+        if (searchView != null) {
+            searchView.showPreloader();
+        }
+
+        searchManager.search(searchCallback(), options);
     }
 
     private SearchManager.MoviesLoaderListener searchCallback() {

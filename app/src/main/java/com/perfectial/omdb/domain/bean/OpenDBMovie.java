@@ -9,16 +9,20 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "movie")
 public class OpenDBMovie {
 
+    public static final String TITLE_FIELD = "title";
+    public static final String YEAR_FIELD = "year";
+    public static final String TYPE_FIELD = "type";
+
     @DatabaseField(id = true)
     private String imdbID;
 
-    @DatabaseField
+    @DatabaseField(columnName = TITLE_FIELD)
     private String title;
 
-    @DatabaseField
+    @DatabaseField(columnName = YEAR_FIELD)
     private String year;
 
-    @DatabaseField
+    @DatabaseField(columnName = TYPE_FIELD)
     private String type;
 
     @DatabaseField

@@ -40,6 +40,8 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.5.2' // image loading
 
+    compile "org.apache.commons:commons-lang3:3.3.2"
+
     compile 'com.jakewharton:butterknife:7.0.1' // di for views
 
     compile 'com.google.dagger:dagger:2.0.2' // di

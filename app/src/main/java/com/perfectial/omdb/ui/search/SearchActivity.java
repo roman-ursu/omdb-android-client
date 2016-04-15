@@ -21,7 +21,9 @@ import com.perfectial.omdb.domain.bean.OpenDBMovie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -139,7 +141,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
 
     @Override
     public void showFilterDialog() {
-        SearchFilterFragmentDialog searchFilterDialog = new SearchFilterFragmentDialog();
+        final SearchFilterFragmentDialog searchFilterDialog = new SearchFilterFragmentDialog();
+        searchFilterDialog.setDialogListener(new SearchFilterFragmentDialog.SearchFilterDialogListener() {
+            @Override
+            public void onFilterSet(Map<String, String> options) {
+                searchFilterDialog.dismiss();
+                searchPresenter.loadMovies(options);
+            }
+        });
         searchFilterDialog.show(getFragmentManager(), "");
     }
 

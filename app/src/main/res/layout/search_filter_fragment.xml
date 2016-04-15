@@ -15,6 +15,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/type"
                 android:textSize="18sp"
@@ -29,7 +30,7 @@
                 android:gravity="right" />
         </TableRow>
 
-        <TableRow android:layout_marginTop="13dp">
+        <TableRow android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Some film name"
+                android:hint="Film title"
                 android:textSize="15sp" />
         </TableRow>
 
@@ -63,11 +64,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="1988"
+                android:hint="2016"
+                android:inputType="number"
+                android:maxLength="4"
                 android:textSize="15sp" />
         </TableRow>
 
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/bt_apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:text="@string/apply" />
+
 
 </LinearLayout>

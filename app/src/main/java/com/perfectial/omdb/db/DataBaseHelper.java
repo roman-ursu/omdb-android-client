@@ -15,7 +15,7 @@ import java.sql.SQLException;
 /**
  * Created by rursu on 12.04.16.
  */
-public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
+public class DataBaseHelper extends OrmLiteSqliteOpenHelper implements DBManager {
 
     private final static String TAG = DataBaseHelper.class.getSimpleName();
 
@@ -54,6 +54,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    @Override
     public Dao<OpenDBMovie, String> getMovieDao() throws SQLException {
         if (movieDao == null) {
             movieDao = getDao(OpenDBMovie.class);

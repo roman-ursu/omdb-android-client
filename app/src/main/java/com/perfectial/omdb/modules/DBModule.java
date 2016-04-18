@@ -1,6 +1,6 @@
 package com.perfectial.omdb.modules;
 
-import com.perfectial.omdb.OMDBApp;
+import com.perfectial.omdb.db.DBManager;
 import com.perfectial.omdb.db.DataBaseHelper;
 
 import javax.inject.Singleton;
@@ -21,7 +21,7 @@ public class DBModule {
     }
 
     @Provides @Singleton
-    public DataBaseHelper provideDataBaseHelper() {
+    public DBManager provideDataBaseHelper() {
         return this.dataBaseHelper;
     }
 }

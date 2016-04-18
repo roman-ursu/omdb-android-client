@@ -5,6 +5,7 @@ import android.util.Log;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.perfectial.omdb.db.DBManager;
 import com.perfectial.omdb.db.DataBaseHelper;
 import com.perfectial.omdb.domain.bean.OpenDBMovie;
 import com.perfectial.omdb.net.NetAPI;
@@ -30,16 +31,16 @@ public class SearchManager {
     private static final String TAG = SearchManager.class.toString();
 
     private NetAPI netAPI;
-    private DataBaseHelper dataBaseHelper;
+    private DBManager dbManager;
 
     public interface MoviesLoaderListener {
         void onLoaded(List<OpenDBMovie> movies);
         void onError(String errorMessage);
     }
 
-    public SearchManager(NetAPI netAPI, DataBaseHelper dataBaseHelper) {
+    public SearchManager(NetAPI netAPI, DBManager dbManager) {
         this.netAPI = netAPI;
-        this.dataBaseHelper = dataBaseHelper;
+        this.dbManager = dbManager;
     }
 
     public void search(MoviesLoaderListener moviesListener, final Map<String, String> options) {
@@ -70,7 +71,7 @@ public class SearchManager {
     private List<OpenDBMovie> loadFromDB(final Map<String, String> options) {
         List<OpenDBMovie> movies = new ArrayList<>();
         try {
-            QueryBuilder<OpenDBMovie, String> queryBuilder = dataBaseHelper.getMovieDao().queryBuilder();
+            QueryBuilder<OpenDBMovie, String> queryBuilder = dbManager.getMovieDao().queryBuilder();
             Where where = queryBuilder.where();
 
             Iterator<Map.Entry<String, String>> iterator = options.entrySet().iterator();
@@ -92,7 +93,7 @@ public class SearchManager {
             PreparedQuery<OpenDBMovie> preparedQuery = queryBuilder.prepare();
             Log.d(TAG, queryBuilder.prepareStatementString());
 
-            movies.addAll(dataBaseHelper.getMovieDao().query(preparedQuery));
+            movies.addAll(dbManager.getMovieDao().query(preparedQuery));
 
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
@@ -131,7 +132,7 @@ public class SearchManager {
     private void saveNewMoviesToDBIfNotExist(List<OpenDBMovie> openDBMovies) {
         for (OpenDBMovie movie : openDBMovies) {
             try {
-                dataBaseHelper.getMovieDao().createIfNotExists(movie);
+                dbManager.getMovieDao().createIfNotExists(movie);
 
             } catch (SQLException e) {
                 Log.e(TAG, e.getMessage(), e);

@@ -1,5 +1,6 @@
 package com.perfectial.omdb.modules;
 
+import com.perfectial.omdb.db.DBManager;
 import com.perfectial.omdb.db.DataBaseHelper;
 import com.perfectial.omdb.domain.SearchManager;
 import com.perfectial.omdb.net.NetAPI;
@@ -23,7 +24,7 @@ public class SearchModule {
     }
 
     @Provides @Singleton
-    public SearchManager provideSearchManager(NetAPI netAPI, DataBaseHelper dataBaseHelper) {
-        return new SearchManager(netAPI, dataBaseHelper);
+    public SearchManager provideSearchManager(NetAPI netAPI, DBManager dbManager) {
+        return new SearchManager(netAPI, dbManager);
     }
 }

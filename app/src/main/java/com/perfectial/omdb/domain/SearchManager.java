@@ -34,7 +34,6 @@ public class SearchManager {
 
     public interface MoviesLoaderListener {
         void onLoaded(List<OpenDBMovie> movies);
-        void onNewLoaded(List<OpenDBMovie> movies);
         void onError(String errorMessage);
     }
 
@@ -75,9 +74,15 @@ public class SearchManager {
             Where where = queryBuilder.where();
 
             Iterator<Map.Entry<String, String>> iterator = options.entrySet().iterator();
+
             while (iterator.hasNext()) {
                 Map.Entry<String, String> entry = iterator.next();
-                where.eq(entry.getKey(), entry.getValue());
+
+                if (OpenDBMovie.TITLE_FIELD.equals(entry.getKey())) {
+                    where.like(OpenDBMovie.TITLE_FIELD, entry.getValue());
+                } else {
+                    where.eq(entry.getKey(), entry.getValue());
+                }
 
                 if (iterator.hasNext()) {
                     where.and();
@@ -85,6 +90,8 @@ public class SearchManager {
             }
 
             PreparedQuery<OpenDBMovie> preparedQuery = queryBuilder.prepare();
+            Log.d(TAG, queryBuilder.prepareStatementString());
+
             movies.addAll(dataBaseHelper.getMovieDao().query(preparedQuery));
 
         } catch (SQLException e) {
@@ -115,7 +122,7 @@ public class SearchManager {
                 saveNewMoviesToDBIfNotExist(openDBMovies);
 
                 if (moviesListener != null) {
-                    moviesListener.onNewLoaded(openDBMovies);
+                    moviesListener.onLoaded(openDBMovies);
                 }
             }
         };

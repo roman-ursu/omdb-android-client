@@ -56,13 +56,6 @@ public class SearchPresenterImpl implements SearchPresenter {
             }
 
             @Override
-            public void onNewLoaded(List<OpenDBMovie> movies) {
-                if (searchView != null) {
-                    searchView.showMovies(movies);
-                }
-            }
-
-            @Override
             public void onError(String errorMessage) {
                 searchView.showError(errorMessage);
             }

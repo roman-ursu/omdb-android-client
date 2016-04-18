@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.facebook.stetho.Stetho;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.perfectial.omdb.components.DaggerDiComponent;
 import com.perfectial.omdb.components.DiComponent;
@@ -24,6 +25,7 @@ public class OMDBApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
 
         this.app = this;
 

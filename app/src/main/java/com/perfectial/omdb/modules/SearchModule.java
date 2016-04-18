@@ -18,7 +18,7 @@ import dagger.Provides;
 @Module(includes = {NetAPIModule.class, DBModule.class})
 public class SearchModule {
 
-    @Provides
+    @Provides @Singleton
     public SearchPresenter provideSearchPresenter(SearchManager searchManager) {
         return new SearchPresenterImpl(searchManager);
     }

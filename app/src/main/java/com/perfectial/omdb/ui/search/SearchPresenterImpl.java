@@ -3,6 +3,8 @@ package com.perfectial.omdb.ui.search;
 import com.perfectial.omdb.domain.SearchManager;
 import com.perfectial.omdb.domain.bean.OpenDBMovie;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     private SearchView searchView;
     private SearchManager searchManager;
+    private Map<String, String> lastOptions;
 
     public SearchPresenterImpl(SearchManager searchManager) {
         this.searchManager = searchManager;
@@ -26,10 +29,13 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void onViewCreated() {
-        Map<String, String> options = new HashMap<>();
-        options.put(OpenDBMovie.TYPE_FIELD, "movie");
-        options.put(OpenDBMovie.TITLE_FIELD, "Happy");
-        loadMovies(options);
+        if (lastOptions != null) {
+            loadMovies(lastOptions);
+        } else {
+            if (searchView != null) {
+                searchView.showMovies(Collections.<OpenDBMovie>emptyList());
+            }
+        }
     }
 
     @Override
@@ -39,6 +45,7 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void loadMovies(Map<String, String> options) {
+        lastOptions = options;
         if (searchView != null) {
             searchView.showPreloader();
         }

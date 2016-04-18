@@ -48,7 +48,10 @@ public class SearchManager {
         Observable<List<OpenDBMovie>> loadMoviesObservable = Observable.create(new Observable.OnSubscribe<List<OpenDBMovie>>() {
             @Override
             public void call(Subscriber<? super List<OpenDBMovie>> subscriber) {
-                subscriber.onNext(loadFromDB(options));
+                List<OpenDBMovie> moviesFromDB = loadFromDB(options);
+                if (moviesFromDB.size() > 0) {
+                    subscriber.onNext(moviesFromDB);
+                }
 
                 try {
                     SearchResponse searchResponse = netAPI.searchForMovieSync(options);

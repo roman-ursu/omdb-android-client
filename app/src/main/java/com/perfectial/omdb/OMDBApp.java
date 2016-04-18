@@ -69,7 +69,8 @@ public class OMDBApp extends Application {
             @Override
             public void onActivityDestroyed(Activity activity) {
                 activeActivitiesNumber--;
-                if (activeActivitiesNumber == 0) {
+                if (activeActivitiesNumber == 0 && !activity.isChangingConfigurations()) {
+
                     releaseDBHelper();
                 }
             }
